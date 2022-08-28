@@ -1,17 +1,30 @@
 table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+.button {
+  background-color: rgb(181, 33, 33);
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+.spinner{
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media screen and (max-width: 600px) {
+  td,
+  th {
+    padding: 0px;
   }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  @media screen and (max-width:600px) {
-    td,th{
-        padding: 2px;
-    }
-  }
+}
