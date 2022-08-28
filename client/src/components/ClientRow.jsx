@@ -9,7 +9,7 @@ const ClientRow = ({ client }) => {
       <td>{client.email}</td>
       <td>{client.phone}</td>
       <td>
-        <button>
+        <button className="button">
           <FaTrash />
         </button>
       </td>
