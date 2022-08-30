@@ -1,9 +1,10 @@
-.navbar{
-    display: flex;
-   background-color : rgb(95, 85, 85);
-  
+.navbar {
+  display: flex;
+  background-color: rgb(95, 85, 85);
+  justify-content: space-between;
 }
-.nav{
-padding: 5px 5px;
-color: white;
+.nav {
+  padding: 5px 5px;
+  color: white;
+  display: flex;
 }
