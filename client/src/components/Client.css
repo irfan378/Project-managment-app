@@ -8,8 +8,9 @@ table {
 td,
 th {
   text-align: center;
-  padding: 8px;
+  padding-top: 20px;
   border-bottom: 1px solid rgb(200, 184, 184);
+  
 
 }
 .button {
@@ -27,6 +28,8 @@ th {
 @media screen and (max-width: 600px) {
   td,
   th {
-    padding: 0px;
+    padding-top: 10px;
+    padding-left: 0;
   }
+ 
 }
