@@ -31,8 +31,8 @@ function App() {
     <>
       <ApolloProvider client={client}>
         <Header />
-        <Client />
         <Project/>
+        <Client />
       </ApolloProvider>
     </>
   );

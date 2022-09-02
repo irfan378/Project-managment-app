@@ -1,0 +1,36 @@
+.row {
+display: grid;
+grid-template-columns: 1fr 1fr 1fr 1fr;
+justify-items: center;
+}
+.main { 
+  border: 1px solid rgb(215, 200, 200);
+  border-radius: 8px;
+  padding:2px 2px;
+  margin: 5px 5px;
+  width: 200px;
+  height: 150px;
+}
+.btn{
+    border: 1px solid rgb(215, 200, 200);
+    color:black;
+    text-decoration: none;
+    font-style: oblique;
+    border-radius: 5px;
+    margin-left: 2px;
+}
+@media screen and (max-width:600px) {
+    .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
+        }
+        .main { 
+            border: 1px solid rgb(215, 200, 200);
+            border-radius: 8px;
+            padding:2px 2px;
+            margin:5px 5px;
+            width: 150px;
+            height: 150px;
+          }
+}
