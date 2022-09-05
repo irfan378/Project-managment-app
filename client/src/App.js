@@ -1,4 +1,5 @@
 import React from "react";
+import {BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import { ApolloProvider, InMemoryCache, ApolloClient } from "@apollo/client";
 import Client from "./components/Client";
@@ -30,9 +31,11 @@ function App() {
   return (
     <>
       <ApolloProvider client={client}>
-        <Header />
-        <Project/>
-        <Client />
+        <Router>
+          <Header />
+          <Project />
+          <Client />
+        </Router>
       </ApolloProvider>
     </>
   );
