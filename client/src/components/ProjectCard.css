@@ -2,6 +2,7 @@
 display: grid;
 grid-template-columns: 1fr 1fr 1fr 1fr;
 justify-items: center;
+margin-top: 50px;
 }
 .main { 
   border: 1px solid rgb(215, 200, 200);
@@ -10,12 +11,13 @@ justify-items: center;
   margin: 5px 5px;
   width: 200px;
   height: 150px;
+  font-style: normal;
 }
 .btn{
     border: 1px solid rgb(215, 200, 200);
     color:black;
     text-decoration: none;
-    font-style: oblique;
+    font-style: normal;
     border-radius: 5px;
     margin-left: 2px;
 }

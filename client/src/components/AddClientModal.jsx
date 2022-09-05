@@ -65,7 +65,7 @@ const AddClientModal = ({ open, setOpen }) => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
-            <button id="myBtn" type="submit" className="btn">
+            <button id="myBtn2" type="submit" className="btn">
               Add
             </button>
             </div>

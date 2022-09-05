@@ -6,7 +6,7 @@ const ProjectCard = ({ project }) => {
     <>
       <div className="main">
         <h5>{project.name}</h5>
-        <p>{project.status}</p>
+       <p>Status:<strong>{project.status}</strong> </p>
         <a href={`/projects/${project.id}`} className="btn">View</a>
       </div>
     </>
