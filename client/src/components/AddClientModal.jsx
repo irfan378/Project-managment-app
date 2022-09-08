@@ -16,7 +16,7 @@ const AddClientModal = ({ open, setOpen }) => {
       });
       cache.writeQuery({
         query: GET_CLIENTS,
-        data: { clients: [...clients,addClient] },
+        data: { clients: [...clients, addClient] },
       });
     },
   });
@@ -28,49 +28,47 @@ const AddClientModal = ({ open, setOpen }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name==='' ||email===''||phone==='') {
-      return alert('Please fill in all Fields')
+    if (name === "" || email === "" || phone === "") {
+      return alert("Please fill in all Fields");
     }
-    addClient(name,email,phone);
-    setName('')
-    setEmail('')
-    setPhone('')
-    setOpen(false)
+    addClient(name, email, phone);
+    setName("");
+    setEmail("");
+    setPhone("");
+    setOpen(false);
   };
   return (
     <div className="modal">
       {open ? (
         <div id="myModal">
-         
-            <span onClick={closeModel} className="close">
-              &times;
-            </span>
-            <form onSubmit={handleSubmit}>
+          <span onClick={closeModel} className="close">
+            &times;
+          </span>
+          <form onSubmit={handleSubmit}>
             <div className="modal-content">
-            <input
-              type="text"
-              value={name}
-              placeholder="Name"
-              onChange={(e) => setName(e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-            <button id="myBtn2" type="submit" className="btn">
-              Add
-            </button>
+              <input
+                type="text"
+                value={name}
+                placeholder="Name"
+                onChange={(e) => setName(e.target.value)}
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+              <button id="myBtn2" type="submit" className="btn">
+                Add
+              </button>
             </div>
-            </form>
-      
+          </form>
         </div>
       ) : (
         <button onClick={openModel} id="myBtn">

@@ -1,0 +1,20 @@
+.mains{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+.btns{
+    background-color: #11b332;
+    width: 70px;
+    height: 18px;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 18px 25px;
+  }
+
