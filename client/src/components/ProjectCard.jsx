@@ -1,5 +1,6 @@
 import React from "react";
 import "./ProjectCard.css";
+import { Link } from "react-router-dom";
 
 const ProjectCard = ({ project }) => {
   return (
@@ -7,7 +8,7 @@ const ProjectCard = ({ project }) => {
       <div className="main">
         <h5>{project.name}</h5>
        <p>Status:<strong>{project.status}</strong> </p>
-        <a href={`/projects/${project.id}`} className="btn">View</a>
+        <Link to={`/projects/${project.id}`} className="btn">View</Link>
       </div>
     </>
   );
