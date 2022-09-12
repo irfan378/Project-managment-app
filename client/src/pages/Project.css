@@ -14,3 +14,30 @@
   width: 100%;
   height: 100%;
 }
+.back {
+  position: relative;
+  top: 2rem;
+  left: 28rem;
+  text-decoration: none;
+  color: #272626;
+  background-color: #cfe4cf;
+  width: 65px;
+  height: 25px;
+  border: 1px solid white;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+  padding-top: 6px;
+}
+@media screen and (max-width:600px) {
+  .project{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+  }
+  .back{
+    position: relative;
+    top: 1rem;
+    left: 14rem;
+  }
+}
