@@ -43,6 +43,12 @@ svg {
   width: 1.3rem;
   height: 2rem;
 }
+input,textarea,select {
+  width: 50%;}
+.btns{
+  width: 30%;
+ margin-left: 45px;
+}
 @media screen and (max-width: 600px) {
   .project {
     display: flex;
@@ -57,7 +63,7 @@ svg {
   .deleteButton {
     position: absolute;
     top: 19rem;
-    right:2rem;
+    right: 2rem;
     height: 2.5rem;
     width: 2.5rem;
     background-color: #d51717;
