@@ -43,11 +43,14 @@ svg {
   width: 1.3rem;
   height: 2rem;
 }
-input,textarea,select {
-  width: 50%;}
-.btns{
+input,
+textarea,
+select {
+  width: 100%;
+}
+.btns {
   width: 30%;
- margin-left: 45px;
+  margin-left: 45px;
 }
 @media screen and (max-width: 600px) {
   .project {
