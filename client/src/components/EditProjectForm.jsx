@@ -1,30 +1,47 @@
 import React from "react";
-import { useState } from "react"
-import "../pages/Project.css"
+import { useState } from "react";
+import "./EditProject.css";
+import { UPDATE_PROJECT } from "../mutation/projectMutation";
+import { useMutation } from "@apollo/client";
+import { GET_PROJECT } from "../queries/projectQueries";
 
-const EditProjectForm = ({ projectId }) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+const EditProjectForm = ({ project }) => {
+  const [name, setName] = useState(project.name);
+  const [description, setDescription] = useState(project.description);
   const [status, setStatus] = useState("");
+  const [updateProject] = useMutation(UPDATE_PROJECT, {
+    variables: { id: project.id, name, description, status },
+    refetchQueries: [{ query: GET_PROJECT, variables: { id: project.id } }],
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name || !description || !status) {
+      return alert("Please fill out all the fields");
+    }
+    updateProject(name, description, status);
+  };
   return (
     <>
       <h3>Update Project Details</h3>
-      <form>
-        <div className="modal-content">
+      <form onSubmit={handleSubmit}>
+        <div className="edit">
           <input
             type="text"
             value={name}
             placeholder="Name"
             onChange={(e) => setName(e.target.value)}
+            id="input"
           />
           <textarea
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            id="textarea"
           ></textarea>
           <select
             name="Status"
-            id="status"
+            id="select"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
             className="form-select"
@@ -34,8 +51,8 @@ const EditProjectForm = ({ projectId }) => {
             <option value="completed">Completed</option>
           </select>
 
-          <button id="myBtn2" type="submit" className="btns">
-          Update
+          <button type="submit" className="updateBtn">
+            Update
           </button>
         </div>
       </form>

@@ -4,10 +4,11 @@ import "./AddClientModel.css";
 import { ADD_CLIENT } from "../mutation/clientMutation";
 import { GET_CLIENTS } from "../queries/clientQueries";
 import { useMutation } from "@apollo/client";
-const AddClientModal = ({ open, setOpen }) => {
+const AddClientModal = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [open, setOpen] = useState(false);
   const [addClient] = useMutation(ADD_CLIENT, {
     variables: { name, email, phone },
     update(cache, { data: { addClient } }) {
