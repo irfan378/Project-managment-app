@@ -31,7 +31,7 @@ const Project = () => {
               </>
             )}
             <DeleteProjectButton projectId={data.project.id} />
-            <EditProjectForm project={data.project.id} />
+            <EditProjectForm project={data.project} />
           </div>
         </div>
       )}
