@@ -1,5 +1,8 @@
 const Project = require("../models/Project");
 const Client = require("../models/Client");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const {
   GraphQLObjectType,
   GraphQLID,
@@ -9,6 +12,7 @@ const {
   GraphQLNonNull,
   GraphQLEnumType,
 } = require("graphql");
+const User = require("../models/User");
 
 // Project Type
 const ProjectType = new GraphQLObjectType({
@@ -35,7 +39,15 @@ const ClientType = new GraphQLObjectType({
     phone: { type: GraphQLString },
   }),
 });
-
+const UserType = new GraphQLObjectType({
+  name: "User",
+  fields: () => ({
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    email: { type: GraphQLString },
+    password: { type: GraphQLString },
+  }),
+});
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
@@ -96,6 +108,11 @@ const mutation = new GraphQLObjectType({
         id: { type: GraphQLNonNull(GraphQLID) },
       },
       resolve(parent, args) {
+        Project.find({ clientId: args.id }).then((projects) => {
+          projects.forEach((project) => {
+            project.remove();
+          });
+        });
         return Client.findByIdAndRemove(args.id);
       },
     },
@@ -166,6 +183,41 @@ const mutation = new GraphQLObjectType({
           },
           { new: true }
         );
+      },
+    },
+    registerUser: {
+      type: UserType,
+      args: {
+        name: { type: GraphQLString },
+        email: { type: GraphQLString, unique: true },
+        password: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        const salt = await bcrypt.genSalt(10);
+        const secPass = await bcrypt.hash(args.password, salt);
+        let user = new User({
+          name: args.name,
+          email: args.email,
+          password: secPass,
+        });
+        const data = {
+          user: {
+            id: user.id,
+          },
+        };
+        const authtoken = jwt.sign(data, process.env.JWT_SECRET);
+
+        return user.save(authtoken);
+      },
+    },
+    loginUser: {
+      type: UserType,
+      args: {
+        email: { type: GraphQLString },
+        password: { type: GraphQLString },
+      },
+      resolve(parent, args) {
+        let user = User.findById(args.id);
       },
     },
   },
