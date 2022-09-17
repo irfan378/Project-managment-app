@@ -2,6 +2,7 @@ const Project = require("../models/Project");
 const Client = require("../models/Client");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { UserInputError } = require("apollo-server");
 require("dotenv").config();
 const {
   GraphQLObjectType,
@@ -13,6 +14,7 @@ const {
   GraphQLEnumType,
 } = require("graphql");
 const User = require("../models/User");
+const { findOne } = require("../models/Project");
 
 // Project Type
 const ProjectType = new GraphQLObjectType({
@@ -46,6 +48,8 @@ const UserType = new GraphQLObjectType({
     name: { type: GraphQLString },
     email: { type: GraphQLString },
     password: { type: GraphQLString },
+    token: { type: GraphQLString },
+    createdAt: { type: GraphQLString },
   }),
 });
 const RootQuery = new GraphQLObjectType({
@@ -191,23 +195,36 @@ const mutation = new GraphQLObjectType({
         name: { type: GraphQLString },
         email: { type: GraphQLString, unique: true },
         password: { type: GraphQLString },
+        token: { type: GraphQLString },
+        createdAt: { type: GraphQLString },
       },
       async resolve(parent, args) {
         const salt = await bcrypt.genSalt(10);
         const secPass = await bcrypt.hash(args.password, salt);
-        let user = new User({
+        const newUser = new User({
           name: args.name,
           email: args.email,
           password: secPass,
+          createdAt: new Date().toISOString(),
         });
-        const data = {
-          user: {
-            id: user.id,
-          },
-        };
-        const authtoken = jwt.sign(data, process.env.JWT_SECRET);
 
-        return user.save(authtoken);
+        const res = await newUser.save();
+        const token = jwt.sign(
+          {
+            id: res.id,
+            email: res.email,
+            mame: res.name,
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: "1h" }
+        );
+        return {
+          id: res._id,
+          token,
+          password: res.password,
+          name: res.name,
+          email: res.email,
+        };
       },
     },
     loginUser: {
@@ -217,7 +234,29 @@ const mutation = new GraphQLObjectType({
         password: { type: GraphQLString },
       },
       resolve(parent, args) {
-        let user = User.findById(args.id);
+        let email=args.email;
+        let user = User.findOne({ email });
+        if (!user) {
+          throw new UserInputError("user not found", {
+            errors: {
+              email: "Email not found",
+            },
+          });
+        }
+        const match=bcrypt.compare(args.password,user.password);
+        if(!match){
+          throw new UserInputError("Password is incorrect", {
+            errors: {
+              email: "Password is incorrect",
+            },
+          });
+        }
+        return {
+      
+          password: user.password,
+         
+          email: user.email,
+        };
       },
     },
   },
