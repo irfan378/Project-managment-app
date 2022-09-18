@@ -14,7 +14,7 @@ const {
   GraphQLEnumType,
 } = require("graphql");
 const User = require("../models/User");
-const { findOne } = require("../models/Project");
+
 
 // Project Type
 const ProjectType = new GraphQLObjectType({
@@ -82,6 +82,7 @@ const RootQuery = new GraphQLObjectType({
         return Client.findById(args.id);
       },
     },
+  
   },
 });
 
@@ -197,7 +198,8 @@ const mutation = new GraphQLObjectType({
         password: { type: GraphQLString },
         token: { type: GraphQLString },
         createdAt: { type: GraphQLString },
-      },
+      }, 
+   
       async resolve(parent, args) {
         const salt = await bcrypt.genSalt(10);
         const secPass = await bcrypt.hash(args.password, salt);
@@ -207,7 +209,11 @@ const mutation = new GraphQLObjectType({
           password: secPass,
           createdAt: new Date().toISOString(),
         });
-
+        const user=await User.findOne({email:args.email})
+        if(user){
+          throw Error("User is already registered")
+        }
+       
         const res = await newUser.save();
         const token = jwt.sign(
           {
@@ -234,31 +240,31 @@ const mutation = new GraphQLObjectType({
         password: { type: GraphQLString },
       },
       resolve(parent, args) {
-        let email=args.email;
-        let user = User.findOne({ email });
+        let user = User.findOne({ email:args.email });
         if (!user) {
-          throw new UserInputError("user not found", {
-            errors: {
-              email: "Email not found",
-            },
-          });
+          throw Error("User not found")
         }
         const match=bcrypt.compare(args.password,user.password);
+        const token = jwt.sign(
+          {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: "1h" }
+        );
         if(!match){
-          throw new UserInputError("Password is incorrect", {
-            errors: {
-              email: "Password is incorrect",
-            },
-          });
+          throw Error("Email or password doesn't match")
         }
         return {
-      
-          password: user.password,
-         
-          email: user.email,
+         email:user.email,
+         password:null,
+         id:user.id
         };
       },
     },
+  
   },
 });
 
