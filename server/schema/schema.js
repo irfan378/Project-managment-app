@@ -15,7 +15,6 @@ const {
 } = require("graphql");
 const User = require("../models/User");
 
-
 // Project Type
 const ProjectType = new GraphQLObjectType({
   name: "Project",
@@ -82,7 +81,6 @@ const RootQuery = new GraphQLObjectType({
         return Client.findById(args.id);
       },
     },
-  
   },
 });
 
@@ -198,8 +196,8 @@ const mutation = new GraphQLObjectType({
         password: { type: GraphQLString },
         token: { type: GraphQLString },
         createdAt: { type: GraphQLString },
-      }, 
-   
+      },
+
       async resolve(parent, args) {
         const salt = await bcrypt.genSalt(10);
         const secPass = await bcrypt.hash(args.password, salt);
@@ -209,11 +207,11 @@ const mutation = new GraphQLObjectType({
           password: secPass,
           createdAt: new Date().toISOString(),
         });
-        const user=await User.findOne({email:args.email})
-        if(user){
-          throw Error("User is already registered")
+        const user = await User.findOne({ email: args.email });
+        if (user) {
+          throw Error("User is already registered");
         }
-       
+
         const res = await newUser.save();
         const token = jwt.sign(
           {
@@ -239,13 +237,16 @@ const mutation = new GraphQLObjectType({
         email: { type: GraphQLString },
         password: { type: GraphQLString },
       },
-      resolve(parent, args) {
-        let user = User.findOne({ email:args.email });
+      async resolve(parent, args) {
+        let user =await User.findOne({ email: args.email });
         if (!user) {
-          throw Error("User not found")
+          throw Error("User not found");
         }
-        const match=bcrypt.compare(args.password,user.password);
-        const token = jwt.sign(
+        const match =await bcrypt.compare(args.password, user.password);
+        if (!match) {
+          throw Error("Email or password doesn't match");
+        }
+        const token =await jwt.sign(
           {
             id: user.id,
             email: user.email,
@@ -254,17 +255,16 @@ const mutation = new GraphQLObjectType({
           process.env.JWT_SECRET,
           { expiresIn: "1h" }
         );
-        if(!match){
-          throw Error("Email or password doesn't match")
-        }
+        
         return {
-         email:user.email,
-         password:null,
-         id:user.id
+          email: user.email,
+          name:user.name,
+          password: null,
+          id: user.id,
+          token
         };
       },
     },
-  
   },
 });
 
