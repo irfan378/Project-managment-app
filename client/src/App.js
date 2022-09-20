@@ -5,6 +5,7 @@ import { ApolloProvider, InMemoryCache, ApolloClient } from "@apollo/client";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Project from "./pages/Project";
+import Register from "./pages/Register"
 const cache = new InMemoryCache({
   typePolicies: {
     Query: {
@@ -38,6 +39,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/projects/:id" element={<Project />} />
+            <Route path="/register" element={<Register/>}/>
           </Routes>
         </Router>
       </ApolloProvider>
