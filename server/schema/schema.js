@@ -217,7 +217,7 @@ const mutation = new GraphQLObjectType({
           {
             id: res.id,
             email: res.email,
-            mame: res.name,
+            name: res.name,
           },
           process.env.JWT_SECRET,
           { expiresIn: "1h" }
@@ -228,6 +228,7 @@ const mutation = new GraphQLObjectType({
           password: res.password,
           name: res.name,
           email: res.email,
+          createdAt: res.createdAt,
         };
       },
     },
@@ -238,15 +239,15 @@ const mutation = new GraphQLObjectType({
         password: { type: GraphQLString },
       },
       async resolve(parent, args) {
-        let user =await User.findOne({ email: args.email });
+        let user = await User.findOne({ email: args.email });
         if (!user) {
           throw Error("User not found");
         }
-        const match =await bcrypt.compare(args.password, user.password);
+        const match = await bcrypt.compare(args.password, user.password);
         if (!match) {
           throw Error("Email or password doesn't match");
         }
-        const token =await jwt.sign(
+        const token = await jwt.sign(
           {
             id: user.id,
             email: user.email,
@@ -255,13 +256,13 @@ const mutation = new GraphQLObjectType({
           process.env.JWT_SECRET,
           { expiresIn: "1h" }
         );
-        
+
         return {
           email: user.email,
-          name:user.name,
+          name: user.name,
           password: null,
           id: user.id,
-          token
+          token,
         };
       },
     },
