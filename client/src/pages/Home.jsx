@@ -7,11 +7,19 @@ import AddProjectModal from "../components/AddProjectModal";
 
 const Home = () => {
   const [open, setOpen] = useState(false);
+  
   return (
     <>
-      <div style={{display:"flex",alignItems:"center",justifyContent:"center"}} className="buttons">
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        className="buttons"
+      >
         <AddClientModal open={open} setOpen={setOpen} />
-        <AddProjectModal open={open} setOpen={setOpen}/>
+        <AddProjectModal open={open} setOpen={setOpen} />
       </div>
       <Project />
       <Client />
