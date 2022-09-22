@@ -56,7 +56,8 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     projects: {
       type: new GraphQLList(ProjectType),
-      resolve(parent, args) {
+      resolve(parent, args,context) {
+        if(!context.User.token) return null;
         return Project.find();
       },
     },

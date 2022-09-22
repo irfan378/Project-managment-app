@@ -1,40 +1,35 @@
 import { useMutation } from "@apollo/client";
 import React from "react";
 import { useState } from "react";
-import { REGISTER_USER } from "../mutation/userMutation";
+import { LOGIN_USER } from "../mutation/userMutation";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [addUser] = useMutation(REGISTER_USER, {
+  const [loginUser] = useMutation(LOGIN_USER, {
     update(proxy, result) {
-      localStorage.setItem("token", result.data.registerUser.token);
+        console.log(result)
+      localStorage.setItem("token", result.data.loginUser.token);
     },
-    variables: { name, email, password },
+    variables: {  email, password },
   });
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name === "" || email === "" || password === "") {
+    if ( email === "" || password === "") {
       return alert("Please fill in all Fields");
     }
-    addUser(name, email, password);
+    loginUser(email, password);
     navigate("/");
   };
   return (
     <>
       <form onSubmit={handleSubmit}>
         <div className="register">
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Name"
-          />
+        
           <input
             type="email"
             value={email}
@@ -47,7 +42,7 @@ const Register = () => {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
           />
-          <button type="submit">Register</button>
+          <button type="submit">Login</button>
         </div>
       </form>
     </>

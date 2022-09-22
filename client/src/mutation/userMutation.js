@@ -13,4 +13,15 @@ const REGISTER_USER = gql`
     }
   }
 `;
-export { REGISTER_USER };
+const LOGIN_USER=gql`mutation LoginUser( $email: String! $password: String!) {
+  loginUser(
+     email: $email password: $password 
+  ) {
+    id
+    name
+    email
+    token
+  }
+}
+`;
+export { REGISTER_USER,LOGIN_USER };
