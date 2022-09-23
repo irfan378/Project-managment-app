@@ -2,6 +2,7 @@ const Project = require("../models/Project");
 const Client = require("../models/Client");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const auth = require("../utils/auth");
 const { UserInputError } = require("apollo-server");
 require("dotenv").config();
 const {
@@ -27,6 +28,12 @@ const ProjectType = new GraphQLObjectType({
       type: ClientType,
       resolve(parent, args) {
         return Client.findById(parent.clientId);
+      },
+    },
+    user: {
+      type: UserType,
+      resolve(parent, args) {
+        return User.findById(parent.userId);
       },
     },
   }),
@@ -56,8 +63,7 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     projects: {
       type: new GraphQLList(ProjectType),
-      resolve(parent, args,context) {
-        if(!context.User.token) return null;
+      resolve(parent, args) {
         return Project.find();
       },
     },
@@ -138,14 +144,16 @@ const mutation = new GraphQLObjectType({
         },
         clientId: { type: GraphQLNonNull(GraphQLID) },
       },
-      resolve(parent, args) {
-        const project = new Project({
+      async resolve(parent, args, context) {
+        const User = await auth(context);
+        const newProject = new Project({
           name: args.name,
           description: args.description,
           status: args.status,
           clientId: args.clientId,
         });
-        return project.save();
+        const project= newProject.save();
+        return project;
       },
     },
 
