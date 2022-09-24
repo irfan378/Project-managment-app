@@ -6,7 +6,10 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Project from "./pages/Project";
 import Register from "./pages/Register";
-import Login from "./pages/Login"
+import Login from "./pages/Login";
+import { AuthProvider } from "./context/auth";
+import { setContext } from "apollo-link-context";
+import { createHttpLink } from "apollo-link-http";
 const cache = new InMemoryCache({
   typePolicies: {
     Query: {
@@ -25,8 +28,21 @@ const cache = new InMemoryCache({
     },
   },
 });
-const client = new ApolloClient({
+
+const httpLink = createHttpLink({
   uri: "http://localhost:5000/graphql",
+});
+
+const authLink = setContext(() => {
+  const token = localStorage.getItem("token");
+  return {
+    headers: {
+      Authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
   cache: cache,
 });
 
@@ -34,16 +50,18 @@ function App() {
   return (
     <>
       <ApolloProvider client={client}>
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/projects/:id" element={<Project />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        </Router>
+        <AuthProvider>
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/projects/:id" element={<Project />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+          </Router>
+        </AuthProvider>
       </ApolloProvider>
     </>
   );
