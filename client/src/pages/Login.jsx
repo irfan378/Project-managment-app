@@ -4,12 +4,14 @@ import { useState } from "react";
 import { LOGIN_USER } from "../mutation/userMutation";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
+import { useContext } from "react";
+import { AuthContext } from "../context/auth";
 
 const Register = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const context = useContext(AuthContext);
   const [loginUser] = useMutation(LOGIN_USER, {
     update(proxy, result) {
         console.log(result)
@@ -23,7 +25,7 @@ const Register = () => {
       return alert("Please fill in all Fields");
     }
     loginUser(email, password);
-    navigate("/");
+    
   };
   return (
     <>

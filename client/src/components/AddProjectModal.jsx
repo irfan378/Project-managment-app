@@ -6,12 +6,14 @@ import { ADD_PROJECT } from "../mutation/projectMutation";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_CLIENTS } from "../queries/clientQueries";
 
+
 const AddProjectModal = ({ open, setOpen }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [clientId, setClientId] = useState("");
   const [status, setStatus] = useState("new");
   const { loading, data, error } = useQuery(GET_CLIENTS);
+ 
 
   const [addProject] = useMutation(ADD_PROJECT, {
     variables: { name, description, status, clientId },

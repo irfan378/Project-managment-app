@@ -146,13 +146,13 @@ const mutation = new GraphQLObjectType({
       },
       async resolve(parent, args, context) {
         const User = await auth(context);
-        const newProject = new Project({
+        const newProject =await new Project({
           name: args.name,
           description: args.description,
           status: args.status,
           clientId: args.clientId,
         });
-        const project= newProject.save();
+        const project=await newProject.save();
         return project;
       },
     },
