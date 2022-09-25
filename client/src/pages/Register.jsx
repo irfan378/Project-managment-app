@@ -4,8 +4,11 @@ import { useState } from "react";
 import { REGISTER_USER } from "../mutation/userMutation";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
+import { useContext } from "react";
+import { AuthContext } from "../context/auth";
 
 const Register = () => {
+  const context=useContext(AuthContext)
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,7 +16,8 @@ const Register = () => {
 
   const [addUser] = useMutation(REGISTER_USER, {
     update(proxy, result) {
-      localStorage.setItem("token", result.data.registerUser.token);
+      context.login(result.data.registerUser)
+     
     },
     variables: { name, email, password },
   });
