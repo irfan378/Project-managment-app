@@ -13,6 +13,7 @@ const Home = () => {
   
   return (
     <> 
+   {user&&(
  <div
  style={{
    display: "flex",
@@ -21,12 +22,11 @@ const Home = () => {
  }}
  className="buttons"
 >
-  {user&&(
 
  <AddClientModal open={open} setOpen={setOpen} />
-  )}
  <AddProjectModal open={open} setOpen={setOpen} />
 </div>
+  )}
       <Project />
       <Client />
     </>

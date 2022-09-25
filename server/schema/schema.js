@@ -144,9 +144,9 @@ const mutation = new GraphQLObjectType({
         },
         clientId: { type: GraphQLNonNull(GraphQLID) },
       },
-      async resolve(parent, args, context) {
-        const User = await auth(context);
-        const newProject =await new Project({
+      async resolve(parent, args) {
+        // const user = auth(context);
+        const newProject =new Project({
           name: args.name,
           description: args.description,
           status: args.status,
@@ -256,7 +256,7 @@ const mutation = new GraphQLObjectType({
         if (!match) {
           throw Error("Email or password doesn't match");
         }
-        const token = await jwt.sign(
+        const token = jwt.sign(
           {
             id: user.id,
             email: user.email,

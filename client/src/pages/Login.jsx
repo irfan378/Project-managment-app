@@ -14,8 +14,9 @@ const Register = () => {
   const context = useContext(AuthContext);
   const [loginUser] = useMutation(LOGIN_USER, {
     update(proxy, result) {
-        console.log(result)
-      localStorage.setItem("token", result.data.loginUser.token);
+      
+    context.login(result.data.loginUser)
+    navigate("/")
     },
     variables: {  email, password },
   });
