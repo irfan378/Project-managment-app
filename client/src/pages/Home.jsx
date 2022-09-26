@@ -10,23 +10,22 @@ import { useContext } from "react";
 const Home = () => {
   const [open, setOpen] = useState(false);
   const { user } = useContext(AuthContext);
-  
-  return (
-    <> 
-   {user&&(
- <div
- style={{
-   display: "flex",
-   alignItems: "center",
-   justifyContent: "center",
- }}
- className="buttons"
->
 
- <AddClientModal open={open} setOpen={setOpen} />
- <AddProjectModal open={open} setOpen={setOpen} />
-</div>
-  )}
+  return (
+    <>
+      {user && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          className="buttons"
+        >
+          <AddClientModal open={open} setOpen={setOpen} />
+          <AddProjectModal open={open} setOpen={setOpen} />
+        </div>
+      )}
       <Project />
       <Client />
     </>

@@ -144,16 +144,22 @@ const mutation = new GraphQLObjectType({
         },
         clientId: { type: GraphQLNonNull(GraphQLID) },
       },
-      async resolve(parent, args) {
-        // const user = auth(context);
-        const newProject =new Project({
-          name: args.name,
-          description: args.description,
-          status: args.status,
-          clientId: args.clientId,
-        });
-        const project=await newProject.save();
-        return project;
+   
+      async resolve(parent, args,context) {
+          const user=await auth(context)
+          const newProject = new Project({
+            name: args.name,
+            description: args.description,
+            status: args.status,
+            clientId: args.clientId,
+          });
+
+          const project = await newProject.save();
+          context.pubsub.publish('NEW_PROJECT', {
+            newProject: project
+          });
+          return project;
+        
       },
     },
 
