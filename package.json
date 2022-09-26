@@ -21,6 +21,8 @@
     "express": "^4.18.1",
     "express-graphql": "^0.12.0",
     "graphql": "^15.8.0",
+    "graphql-middleware": "^6.1.32",
+    "graphql-subscriptions": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.2",
     "postcss-cli": "^10.0.0",
