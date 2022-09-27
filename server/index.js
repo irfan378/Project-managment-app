@@ -7,7 +7,7 @@ const connectDB = require("./config/db");
 const colors = require("colors");
 const cors = require("cors");
 const app = express();
-const { PubSub } =require( 'graphql-subscriptions');
+const { PubSub } = require("graphql-subscriptions");
 const pubsub = new PubSub();
 
 connectDB();
@@ -18,7 +18,7 @@ app.use(
     return {
       schema,
       graphiql: process.env.NODE_ENV === "development",
-      context: ({ req }) =>  req, pubsub ,
+      context: ({ req }) => ({req})
     };
   })
 );

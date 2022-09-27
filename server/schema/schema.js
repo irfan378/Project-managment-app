@@ -30,12 +30,7 @@ const ProjectType = new GraphQLObjectType({
         return Client.findById(parent.clientId);
       },
     },
-    user: {
-      type: UserType,
-      resolve(parent, args) {
-        return User.findById(parent.userId);
-      },
-    },
+   
   }),
 });
 const ClientType = new GraphQLObjectType({
@@ -88,6 +83,13 @@ const RootQuery = new GraphQLObjectType({
         return Client.findById(args.id);
       },
     },
+    user:{
+      type:UserType,
+      args:{id:{type:GraphQLID}},
+      resolve(parent,args){
+        return User.findById(args.id)
+      }
+    }
   },
 });
 
@@ -117,7 +119,8 @@ const mutation = new GraphQLObjectType({
       args: {
         id: { type: GraphQLNonNull(GraphQLID) },
       },
-      resolve(parent, args) {
+      resolve(parent, args,context) { 
+        const user=auth(context)
         Project.find({ clientId: args.id }).then((projects) => {
           projects.forEach((project) => {
             project.remove();
@@ -143,23 +146,23 @@ const mutation = new GraphQLObjectType({
           defaultValue: "Not Started",
         },
         clientId: { type: GraphQLNonNull(GraphQLID) },
-      },
    
-      async resolve(parent, args,context) {
-          const user=await auth(context)
-          const newProject = new Project({
-            name: args.name,
-            description: args.description,
-            status: args.status,
-            clientId: args.clientId,
-          });
+      },
 
-          const project = await newProject.save();
-          context.pubsub.publish('NEW_PROJECT', {
-            newProject: project
-          });
-          return project;
-        
+      async resolve(parent, args, context) {
+        const user = auth(context);
+        console.log(user);
+        const newProject = new Project({
+          name: args.name,
+          description: args.description,
+          status: args.status,
+          clientId: args.clientId,
+          user:user.id
+        });
+
+        const project = await newProject.save();
+
+        return project;
       },
     },
 

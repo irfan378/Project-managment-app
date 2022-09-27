@@ -16,6 +16,7 @@ const ADD_PROJECT = gql`
       name
       description
       status
+      user
       client {
         id
         name

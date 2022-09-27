@@ -5,6 +5,8 @@ import { GET_PROJECTS } from "../queries/projectQueries";
 import { ADD_PROJECT } from "../mutation/projectMutation";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_CLIENTS } from "../queries/clientQueries";
+import { AuthContext } from "../context/auth";
+import { useContext } from "react";
 
 
 const AddProjectModal = ({ open, setOpen }) => {
@@ -13,6 +15,7 @@ const AddProjectModal = ({ open, setOpen }) => {
   const [clientId, setClientId] = useState("");
   const [status, setStatus] = useState("new");
   const { loading, data, error } = useQuery(GET_CLIENTS);
+  const {user}=useContext(AuthContext)
  
 
   const [addProject] = useMutation(ADD_PROJECT, {
