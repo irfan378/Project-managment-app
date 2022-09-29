@@ -30,7 +30,7 @@ const cache = new InMemoryCache({
 });
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:5000/graphql",
+  uri: "http://localhost:5000",
 });
 
 const authLink = setContext(() => {
