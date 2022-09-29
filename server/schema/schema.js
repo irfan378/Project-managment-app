@@ -83,13 +83,7 @@ const RootQuery = new GraphQLObjectType({
         return Client.findById(args.id);
       },
     },
-    user:{
-      type:UserType,
-      args:{id:{type:GraphQLID}},
-      resolve(parent,args){
-        return User.findById(args.id)
-      }
-    }
+  
   },
 });
 
@@ -157,7 +151,7 @@ const mutation = new GraphQLObjectType({
           description: args.description,
           status: args.status,
           clientId: args.clientId,
-          user:user.id
+       
         });
 
         const project = await newProject.save();

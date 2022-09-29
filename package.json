@@ -23,6 +23,7 @@
     "graphql": "^15.8.0",
     "graphql-middleware": "^6.1.32",
     "graphql-subscriptions": "^2.0.0",
+    "graphql-tag": "^2.12.6",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.2",
     "postcss-cli": "^10.0.0",
@@ -30,6 +31,6 @@
   },
   "devDependencies": {
     "dotenv": "^16.0.1",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.20"
   }
 }
