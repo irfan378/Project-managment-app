@@ -15,10 +15,11 @@ module.exports = gql`
     name:String!
     description:String!
     status:String!
-    client:Client!
+    client:[Client]
  }
  type Query{
     projects:[Project]
+    project(projectId:ID!):Project
  }
 `;
 
