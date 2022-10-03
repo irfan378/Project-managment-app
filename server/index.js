@@ -11,7 +11,7 @@ const server = new ApolloServer({
 mongoose
   .connect(process.env.MONGO_URI, { useNewUrlParser: true })
   .then(() => {
-    return server.listen({ port: 5000 });
+    return server.listen({ port: 5001 });
   })
   .then((res) => {
     console.log(`Server running on port ${res.url}`);
