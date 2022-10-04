@@ -26,8 +26,8 @@ const ProjectType = new GraphQLObjectType({
     status: { type: GraphQLString },
     client: {
       type: ClientType,
-      resolve(parent, args) {
-        return Client.findById(parent.clientId);
+      async resolve(parent, args) {
+        return await Client.findById(parent.clientId);
       },
     },
    
@@ -58,8 +58,8 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     projects: {
       type: new GraphQLList(ProjectType),
-      resolve(parent, args) {
-        return Project.find();
+     async resolve(parent, args) {
+        return await Project.find();
       },
     },
     project: {
