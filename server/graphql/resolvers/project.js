@@ -2,6 +2,11 @@ const Client = require("../../models/Client");
 const Project = require("../../models/Project");
 
 module.exports = {
+  ProjectStatus:{
+New:"Not Started",
+Progress:"In Progress",
+Completed:"Completed"
+  },
   Query: {
     async projects() {
       try {
@@ -22,8 +27,30 @@ module.exports = {
   },
   Project: {
     async client(parent) {
-      const client =await Client.findById(parent.clientId);
-      return client;
+      try {
+        const client = await Client.findById(parent.clientId);
+        return client;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+  },
+  Mutation: {
+    async addProject(_, { name, description, status, clientId }) {
+      try {
+        const newProject = new Project({
+          name: name,
+          description: description,
+          status: status,
+          clientId: clientId,
+        });
+
+        const project = await newProject.save();
+
+        return project;
+      } catch (error) {
+        throw new Error(error)
+      }
     },
   },
 };
