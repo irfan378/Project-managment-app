@@ -7,5 +7,12 @@ module.exports = {
   },
   Project:{
     ...projectResolvers.Project
+  },
+  ProjectStatus:{
+    ...projectResolvers.ProjectStatus
+  },
+  Mutation:{
+    ...clientResolvers.Mutation,
+    ...projectResolvers.Mutation
   }
 };
