@@ -35,5 +35,12 @@ module.exports = gql`
       status: ProjectStatus!
       clientId: ID!
     ): Project!
+    deleteProject(id: ID!): String!
+    updateProject(
+      id: ID!
+      name: String!
+      description: String!
+      status: ProjectStatus!
+    ): Project!
   }
 `;

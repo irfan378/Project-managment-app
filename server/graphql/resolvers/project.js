@@ -2,10 +2,10 @@ const Client = require("../../models/Client");
 const Project = require("../../models/Project");
 
 module.exports = {
-  ProjectStatus:{
-New:"Not Started",
-Progress:"In Progress",
-Completed:"Completed"
+  ProjectStatus: {
+    New: "Not Started",
+    Progress: "In Progress",
+    Completed: "Completed",
   },
   Query: {
     async projects() {
@@ -49,7 +49,33 @@ Completed:"Completed"
 
         return project;
       } catch (error) {
-        throw new Error(error)
+        throw new Error(error);
+      }
+    },
+    async deleteProject(_, { id }) {
+      try {
+        await Project.findByIdAndRemove(id);
+        return "Deleted Project Sucessfully";
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    async updateProject(_, { id, name, description, status }) {
+      try {
+        const newProject = await Project.findByIdAndUpdate(
+          id,
+          {
+            $set: {
+              name: name,
+              description: description,
+              status: status,
+            },
+          },
+          { new: true }
+        );
+        return newProject;
+      } catch (error) {
+        throw new Error(error);
       }
     },
   },
