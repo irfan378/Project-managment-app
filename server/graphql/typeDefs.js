@@ -26,6 +26,19 @@ module.exports = gql`
     Progress
     Completed
   }
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    password: String!
+    token: String!
+    createdAt: String!
+  }
+  input RegisterInput {
+    name: String!
+    password: String!
+    email: String!
+  }
   type Mutation {
     addClient(name: String!, email: String!, phone: String!): Client!
     deleteClient(id: ID!): String!
@@ -42,5 +55,7 @@ module.exports = gql`
       description: String!
       status: ProjectStatus!
     ): Project!
+    registerUser(name:String!,email:String!,password:String!):User!
+    loginUser(email:String!,password:String!):User!
   }
 `;
