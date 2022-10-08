@@ -7,7 +7,7 @@ const { AuthenticationError } = require('apollo-server');
 	const authHeader =context.req.headers.authorization
 	if (authHeader) {
 	// Bearer ....
-	const token = context.req.headers.authorization;
+	const token = authHeader;
 	if (token) {
 	try {
 	const user = jwt.verify(token, process.env.JWT_SECRET);

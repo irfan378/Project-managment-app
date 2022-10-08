@@ -1,5 +1,6 @@
 const Client = require("../../models/Client");
 const Project = require("../../models/Project");
+const auth = require("../../utils/auth");
 
 module.exports = {
   ProjectStatus: {
@@ -36,7 +37,11 @@ module.exports = {
     },
   },
   Mutation: {
-    async addProject(_, { name, description, status, clientId }) {
+    async addProject(_, { name, description, status, clientId }, context) {
+      const user = auth(context);
+      if(!user){
+        throw Error(error)
+      }
       try {
         const newProject = new Project({
           name: name,
@@ -52,16 +57,24 @@ module.exports = {
         throw new Error(error);
       }
     },
-    async deleteProject(_, { id }) {
+    async deleteProject(_, { id },context) {
       try {
+        const user = auth(context);
+        if(!user){
+          throw Error(error)
+        }
         await Project.findByIdAndRemove(id);
         return "Deleted Project Sucessfully";
       } catch (error) {
         throw new Error(error);
       }
     },
-    async updateProject(_, { id, name, description, status }) {
+    async updateProject(_, { id, name, description, status },context) {
       try {
+        const user = auth(context);
+        if(!user){
+          throw Error(error)
+        }
         const newProject = await Project.findByIdAndUpdate(
           id,
           {

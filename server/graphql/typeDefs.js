@@ -5,6 +5,7 @@ module.exports = gql`
     name: String!
     email: String!
     phone: String!
+    user:User!
   }
   type Query {
     clients: [Client]

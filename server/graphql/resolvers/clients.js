@@ -1,5 +1,7 @@
 const Client = require("../../models/Client");
 const Project = require("../../models/Project");
+const auth = require("../../utils/auth");
+
 module.exports = {
   Query: {
     async clients() {
@@ -20,8 +22,9 @@ module.exports = {
     },
   },
   Mutation: {
-    async addClient(_, { name, email, phone }) {
+    async addClient(_, { name, email, phone },context) {
       try {
+        const user=auth(context)
         const client = new Client({
           name: name,
           email: email,
@@ -32,8 +35,9 @@ module.exports = {
         throw new Error(error);
       }
     },
-   async deleteClient(_, { id }) {
+   async deleteClient(_, { id },context) {
       try {
+        const user=auth(context);
         Project.find({ clientId: id }).then((projects) => {
           projects.forEach((project) => {
             project.remove();
