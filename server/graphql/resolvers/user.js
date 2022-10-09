@@ -9,9 +9,7 @@ const jwt = require("jsonwebtoken");
 function generateToken(user) {
   return jwt.sign(
     {
-      id: user.id,
       email: user.email,
-      username: user.username,
     },
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
@@ -58,7 +56,7 @@ module.exports = {
         if (!valid) {
           throw new Error('Errors',  errors );
         }
-        let user = await User.findOne({ email: email });
+        const user = await User.findOne({ email: email });
         if (!user) {
           throw Error("User not found");
         }

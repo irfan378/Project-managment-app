@@ -15,8 +15,9 @@ module.exports = gql`
     id: ID!
     name: String!
     description: String!
-    status: String
+    status: String!
     client: Client
+    user:User
   }
   type Query {
     projects: [Project]
@@ -41,13 +42,14 @@ module.exports = gql`
     email: String!
   }
   type Mutation {
-    addClient(name: String!, email: String!, phone: String!): Client!
+    addClient(name: String!, email: String!, phone: String!,userId:ID!): Client!
     deleteClient(id: ID!): String!
     addProject(
       name: String!
       description: String!
       status: ProjectStatus!
-      clientId: ID!
+      clientId: ID
+      userId:ID!
     ): Project!
     deleteProject(id: ID!): String!
     updateProject(
