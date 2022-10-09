@@ -1,5 +1,6 @@
 const Client = require("../../models/Client");
 const Project = require("../../models/Project");
+const User = require("../../models/User");
 const auth = require("../../utils/auth");
 
 module.exports = {
@@ -9,12 +10,12 @@ module.exports = {
     Completed: "Completed",
   },
   Query: {
-    async projects() {
+    async projects(_, { userId }) {
       try {
-        const projects = await Project.find();
+        const projects = await Project.find({ user: userId });
         return projects;
       } catch (error) {
-        throw new Error(err);
+        throw new Error(error);
       }
     },
     async project(_, { projectId }) {
@@ -35,12 +36,24 @@ module.exports = {
         throw new Error(error);
       }
     },
+    async user(parent) {
+      try {
+        const user = await User.findById(parent.userId);
+        return user;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
   Mutation: {
-    async addProject(_, { name, description, status, clientId }, context) {
+    async addProject(
+      _,
+      { name, description, status, clientId, userId },
+      context
+    ) {
       const user = auth(context);
-      if(!user){
-        throw Error(error)
+      if (!user) {
+        throw Error(error);
       }
       try {
         const newProject = new Project({
@@ -48,6 +61,7 @@ module.exports = {
           description: description,
           status: status,
           clientId: clientId,
+          userId: userId,
         });
 
         const project = await newProject.save();
@@ -57,11 +71,11 @@ module.exports = {
         throw new Error(error);
       }
     },
-    async deleteProject(_, { id },context) {
+    async deleteProject(_, { id }, context) {
       try {
         const user = auth(context);
-        if(!user){
-          throw Error(error)
+        if (!user) {
+          throw Error(error);
         }
         await Project.findByIdAndRemove(id);
         return "Deleted Project Sucessfully";
@@ -69,11 +83,11 @@ module.exports = {
         throw new Error(error);
       }
     },
-    async updateProject(_, { id, name, description, status },context) {
+    async updateProject(_, { id, name, description, status }, context) {
       try {
         const user = auth(context);
-        if(!user){
-          throw Error(error)
+        if (!user) {
+          throw Error(error);
         }
         const newProject = await Project.findByIdAndUpdate(
           id,

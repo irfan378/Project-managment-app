@@ -1,7 +1,7 @@
 const Client = require("../../models/Client");
 const Project = require("../../models/Project");
 const auth = require("../../utils/auth");
-
+const User=require('../../models/User')
 module.exports = {
   Query: {
     async clients() {
@@ -21,29 +21,44 @@ module.exports = {
       }
     },
   },
-  Mutation: {
-    async addClient(_, { name, email, phone },context) {
+  Client: {
+    async user(parent) {
       try {
-        const user=auth(context)
-        const client = new Client({
-          name: name,
-          email: email,
-          phone: phone,
-        });
-        return client.save();
+        const user = await User.findById(parent.userId);
+        return user;
       } catch (error) {
         throw new Error(error);
       }
     },
-   async deleteClient(_, { id },context) {
+  },
+  Mutation: {
+    async addClient(_, { name, email, phone, userId }, context) {
+      const user = auth(context);
+      if (!user) {
+        throw new Error("Please login");
+      }
       try {
-        const user=auth(context);
+        const newClient = new Client({
+          name: name,
+          email: email,
+          phone: phone,
+          userId: userId,
+        });
+        const client = await newClient.save();
+        return client;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    async deleteClient(_, { id }, context) {
+      try {
+        const user = auth(context);
         Project.find({ clientId: id }).then((projects) => {
           projects.forEach((project) => {
             project.remove();
           });
         });
-      await  Client.findByIdAndRemove(id);
+        await Client.findByIdAndRemove(id);
         return "Deleted Sucessfully";
       } catch (error) {
         throw new Error(error);
