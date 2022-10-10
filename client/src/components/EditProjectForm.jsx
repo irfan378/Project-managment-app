@@ -10,8 +10,8 @@ const EditProjectForm = ({ project }) => {
   const [description, setDescription] = useState(project.description);
   const [status, setStatus] = useState("");
   const [updateProject] = useMutation(UPDATE_PROJECT, {
-    variables: { id: project.id, name, description, status },
-    refetchQueries: [{ query: GET_PROJECT, variables: { id: project.id } }],
+    variables: { id: project.projectId, name, description, status },
+    refetchQueries: [{ query: GET_PROJECT, variables: { id: project.projectId } }],
   });
 
   const handleSubmit = (e) => {
