@@ -9,13 +9,15 @@ import EditProjectForm from "../components/EditProjectForm";
 import "./Project.css";
 
 const Project = () => {
-  const { id } = useParams();
-  const { loading, error, data } = useQuery(GET_PROJECT, { variables: { id } });
+  const {projectId} = useParams();
+  const { loading, error, data } = useQuery(GET_PROJECT, {
+    variables: { projectId:projectId },
+  });
   if (loading) return <Spinner></Spinner>;
   if (error) return <p>Something went wrong</p>;
   return (
     <>
-      {!loading && !error && (
+      {!loading && (
         <div className="mainss">
           <div className="project">
             <Link to="/" className="back">
@@ -30,7 +32,7 @@ const Project = () => {
                 <ClientInfo client={data.project.client} />
               </>
             )}
-            <DeleteProjectButton projectId={data.project.id} />
+            <DeleteProjectButton projectId={data.project.projectId} />
             <EditProjectForm project={data.project} />
           </div>
         </div>
