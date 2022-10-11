@@ -27,10 +27,8 @@ const ADD_PROJECT = gql`
   }
 `;
 const DELETE_PROJECT = gql`
-  mutation DeleteProject($id: ID!) {
-    deleteProject(id: $id) {
-      id
-    }
+  mutation($deleteProjectId: ID!) {
+    deleteProject(id: $deleteProjectId)
   }
 `;
 const UPDATE_PROJECT = gql`

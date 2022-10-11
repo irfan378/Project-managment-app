@@ -9,9 +9,9 @@ import EditProjectForm from "../components/EditProjectForm";
 import "./Project.css";
 
 const Project = () => {
-  const {projectId} = useParams();
+  const { projectId } = useParams();
   const { loading, error, data } = useQuery(GET_PROJECT, {
-    variables: { projectId:projectId },
+    variables: { projectId: projectId },
   });
   if (loading) return <Spinner></Spinner>;
   if (error) return <p>Something went wrong</p>;
@@ -32,7 +32,7 @@ const Project = () => {
                 <ClientInfo client={data.project.client} />
               </>
             )}
-            <DeleteProjectButton projectId={data.project.projectId} />
+            <DeleteProjectButton deleteProjectId={data.project.id} />
             <EditProjectForm project={data.project} />
           </div>
         </div>

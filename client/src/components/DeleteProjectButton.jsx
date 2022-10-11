@@ -6,10 +6,10 @@ import "../pages/Project.css";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 
-const DeleteProjectButton = ({ projectId }) => {
+const DeleteProjectButton = ({ deleteProjectId }) => {
   const navigate = useNavigate();
   const [deleteProject] = useMutation(DELETE_PROJECT, {
-    variables: { projectId: projectId },
+    variables: { deleteProjectId: deleteProjectId },
     onCompleted: () => navigate("/"),
     refetchQueries: [{ query: GET_PROJECTS }],
   });
