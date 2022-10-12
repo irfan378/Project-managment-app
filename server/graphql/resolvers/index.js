@@ -9,9 +9,7 @@ module.exports = {
   Project:{
     ...projectResolvers.Project
   },
-  Client:{
-    ...clientResolvers.Client
-  },
+ 
   ProjectStatus:{
     ...projectResolvers.ProjectStatus
   },

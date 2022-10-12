@@ -21,19 +21,10 @@ module.exports = {
       }
     },
   },
-  Client: {
-    async user(parent) {
-      try {
-        const user = await User.findById(parent.userId);
-        return user;
-      } catch (error) {
-        throw new Error(error);
-      }
-    },
-  },
+
   Mutation: {
-    async addClient(_, { name, email, phone, userId }, context) {
-      const user = auth(context);
+    async addClient(_, { name, email, phone }, context) {
+    const  user=auth(context)
       if (!user) {
         throw new Error("Please login");
       }
@@ -42,8 +33,10 @@ module.exports = {
           name: name,
           email: email,
           phone: phone,
-          userId: userId,
+          user: user.id,
         });
+        console.log(user)
+        console.log(newClient)
         const client = await newClient.save();
         return client;
       } catch (error) {
