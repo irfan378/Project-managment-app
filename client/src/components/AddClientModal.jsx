@@ -4,7 +4,10 @@ import "./AddClientModel.css";
 import { ADD_CLIENT } from "../mutation/clientMutation";
 import { GET_CLIENTS } from "../queries/clientQueries";
 import { useMutation } from "@apollo/client";
+import { useContext } from "react";
+import { AuthContext } from "../context/auth";
 const AddClientModal = () => {
+  const {user}=useContext(AuthContext)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
