@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { ApolloServer } = require("apollo-server");
+const {PubSub}=require("graphql-subscriptions")
 const { mongoose } = require("mongoose");
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require('./graphql/resolvers')
@@ -7,7 +8,7 @@ const resolvers = require('./graphql/resolvers')
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => ({ req })
+  context: ({ req }) => ({ req,PubSub })
 });
 mongoose
   .connect(process.env.MONGO_URI, { useNewUrlParser: true })
