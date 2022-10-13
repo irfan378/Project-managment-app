@@ -1,7 +1,9 @@
 const Client = require("../../models/Client");
 const Project = require("../../models/Project");
 const auth = require("../../utils/auth");
-const User=require('../../models/User')
+const User = require("../../models/User");
+const { PubSub } = require('graphql-subscriptions');
+const pubsub=new PubSub()
 module.exports = {
   Query: {
     async clients() {
@@ -24,7 +26,7 @@ module.exports = {
 
   Mutation: {
     async addClient(_, { name, email, phone }, context) {
-    const  user=auth(context)
+      const user = auth(context);
       if (!user) {
         throw new Error("Please login");
       }
@@ -35,9 +37,12 @@ module.exports = {
           phone: phone,
           user: user.id,
         });
-        console.log(user)
-        console.log(newClient)
+
         const client = await newClient.save();
+        context.pubsub.publish("NEW_CLIENT", {
+          newClient: client,
+        });
+        console.log(client);
         return client;
       } catch (error) {
         throw new Error(error);
