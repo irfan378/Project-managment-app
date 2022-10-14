@@ -5,7 +5,7 @@ module.exports = gql`
     name: String!
     email: String!
     phone: String!
-    user:String
+    user:User
   }
   type Query {
     clients: [Client]
@@ -63,6 +63,6 @@ module.exports = gql`
   }
 
   type Subscription {
-    newClient: Client!
+    clientCreated: Client!
   }
 `;
