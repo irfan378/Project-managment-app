@@ -11,7 +11,7 @@ const { AuthenticationError } = require('apollo-server');
 	if (token) {
 	try {
 	const user = jwt.verify(token, process.env.JWT_SECRET);
-	return user;
+	return {user};
 	} catch (err) {
 	throw new AuthenticationError('Invalid/Expired token');
 	}
