@@ -5,7 +5,7 @@ module.exports = gql`
     name: String!
     email: String!
     phone: String!
-    user:User
+    user:String
   }
   type Query {
     clients: [Client]
@@ -17,7 +17,6 @@ module.exports = gql`
     description: String!
     status: String!
     client: Client
-    user:User
   }
   type Query {
     projects: [Project]
@@ -48,8 +47,7 @@ module.exports = gql`
       name: String!
       description: String!
       status: ProjectStatus!
-      clientId: ID
-      userId:ID!
+      clientId: ID!
     ): Project!
     deleteProject(id: ID!): String!
     updateProject(

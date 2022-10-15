@@ -8,9 +8,9 @@ import Spinner from "./Spinner";
 const Client = () => {
   const { loading, error, data } = useQuery(GET_CLIENTS);
   if (loading) return <Spinner/>;
-  if (error) return <p>Something went wrong</p>;
+
   return <>
-  {!loading&&!error&&(
+  {!loading&&(
     <table cellSpacing="1" className="table">
         <thead>
             <tr className="tr">

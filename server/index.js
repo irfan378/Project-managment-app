@@ -7,8 +7,10 @@ const { SubscriptionServer } = require("subscriptions-transport-ws");
 const { execute, subscribe } = require("graphql");
 const { createServer } = require("http");
 const express = require("express");
+const { PubSub } = require("graphql-subscriptions");
 
 (async function () {
+  const pubsub=new PubSub()
   const app = express();
   const httpServer = createServer(app);
   const subscriptionServer = SubscriptionServer.create(
@@ -23,7 +25,7 @@ const express = require("express");
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req }) => ({ req }),
+    context: ({ req }) => ({ req,pubsub }),
     plugins: [
       {
         async serverWillStart() {
