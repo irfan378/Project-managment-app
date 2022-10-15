@@ -26,32 +26,24 @@ module.exports = {
 
   Mutation: {
     async addClient(_, { name, email, phone }, context) {
-     
       try {
-        const user =  auth(context);
+        const user = auth(context);
         if (!user) {
           throw new Error("Please login");
         }
-        console.log(user)
         const newClient = new Client({
           name: name,
           email: email,
           phone: phone,
-          user:user
+          user: user.id,
         });
-        console.log(newClient)
-
         const client = await newClient.save();
-       
-        return await {
-          id: client.id,
-          ...client._doc,
-        };
+        return client;
       } catch (error) {
         throw new Error(error);
       }
     },
-  
+
     async deleteClient(_, { id }, context) {
       try {
         const user = auth(context);
@@ -67,9 +59,10 @@ module.exports = {
       }
     },
   },
+
   Subscription: {
     clientCreated: {
-      subscribe: () => pubsub.asyncIterator["NEW_CLIENT"],
+      subscribe: () => pubsub.asyncIterator("CLIENT_CREATED"),
     },
   },
 };

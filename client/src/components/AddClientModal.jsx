@@ -22,6 +22,7 @@ const AddClientModal = () => {
         query: GET_CLIENTS,
         data: { clients: [...clients, addClient] },
       });
+      console.log(clients)
     },
   });
   const openModel = () => {
@@ -40,6 +41,7 @@ const AddClientModal = () => {
     setEmail("");
     setPhone("");
     setOpen(false);
+   
   };
   return (
     <div className="modal">

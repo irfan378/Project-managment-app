@@ -12,7 +12,7 @@ module.exports = {
   Query: {
     async projects(_, { userId }) {
       try {
-        const projects = await Project.find({ user: userId });
+        const projects = await Project.find();
         return projects;
       } catch (error) {
         throw new Error(error);
@@ -36,19 +36,12 @@ module.exports = {
         throw new Error(error);
       }
     },
-    async user(parent) {
-      try {
-        const user = await User.findById(parent.userId);
-        return user;
-      } catch (error) {
-        throw new Error(error);
-      }
-    },
+  
   },
   Mutation: {
     async addProject(
       _,
-      { name, description, status, clientId, userId },
+      { name, description, status, clientId },
       context
     ) {
       const user = auth(context);
@@ -61,7 +54,6 @@ module.exports = {
           description: description,
           status: status,
           clientId: clientId,
-          userId: userId,
         });
 
         const project = await newProject.save();
