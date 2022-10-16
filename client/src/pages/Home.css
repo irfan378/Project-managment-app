@@ -1,0 +1,23 @@
+.auth{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.links > a{
+    display: flex;
+    margin: 10px 10px;
+    list-style-type: none;
+    text-decoration: none;
+    background: #c92424;
+    color: white;
+    width: 47px;
+    height: 34px;
+    text-align: center;
+    border-radius: 20px;
+    line-height: 34px;
+    line-break: 26px;
+    padding: 5px 154px;
+}

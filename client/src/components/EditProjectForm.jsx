@@ -10,8 +10,8 @@ const EditProjectForm = ({ project }) => {
   const [description, setDescription] = useState(project.description);
   const [status, setStatus] = useState("");
   const [updateProject] = useMutation(UPDATE_PROJECT, {
-    variables: { id: project.projectId, name, description, status },
-    refetchQueries: [{ query: GET_PROJECT, variables: { id: project.projectId } }],
+    variables: { updateProjectId: project.id, name, description, status },
+    refetchQueries: [{ query: GET_PROJECT, variables: { projectId: project.id } }],
   });
 
   const handleSubmit = (e) => {
@@ -46,9 +46,9 @@ const EditProjectForm = ({ project }) => {
             onChange={(e) => setStatus(e.target.value)}
             className="form-select"
           >
-            <option value="new">Not Started</option>
-            <option value="progress">In Progress</option>
-            <option value="completed">Completed</option>
+            <option value="New">Not Started</option>
+            <option value="Progress">In Progress</option>
+            <option value="Completed">Completed</option>
           </select>
 
           <button type="submit" className="updateBtn">

@@ -5,17 +5,15 @@ import { GET_PROJECTS } from "../queries/projectQueries";
 import { ADD_PROJECT } from "../mutation/projectMutation";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_CLIENTS } from "../queries/clientQueries";
-import { AuthContext } from "../context/auth";
-import { useContext } from "react";
+
 
 
 const AddProjectModal = ({ open, setOpen }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [clientId, setClientId] = useState("");
-  const [status, setStatus] = useState("new");
+  const [status, setStatus] = useState("New");
   const { loading, data, error } = useQuery(GET_CLIENTS);
-  const {user}=useContext(AuthContext)
  
 
   const [addProject] = useMutation(ADD_PROJECT, {
@@ -44,7 +42,7 @@ const AddProjectModal = ({ open, setOpen }) => {
     addProject(name, description, status, clientId);
     setName("");
     setDescription("");
-    setStatus("new");
+    setStatus("New");
     setClientId("");
     setOpen(false);
   };
@@ -79,9 +77,9 @@ const AddProjectModal = ({ open, setOpen }) => {
                     onChange={(e) => setStatus(e.target.value)}
                     className="form-select"
                   >
-                    <option value="new">Not Started</option>
-                    <option value="progress">In Progress</option>
-                    <option value="completed">Completed</option>
+                    <option value="New">Not Started</option>
+                    <option value="Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
                   </select>
                   <select
                     name="Client"

@@ -16,6 +16,7 @@ query($projectId: ID!){
     name
     status
     description
+    user
     client {
       email
       id

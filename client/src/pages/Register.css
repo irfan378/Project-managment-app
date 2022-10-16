@@ -17,3 +17,16 @@
     color: white;
     border-radius: 15px;
 }
+@media screen and (max-width:600px) {
+    .register>input{
+        width: 60%;
+        height: 24px;
+    }
+    .register>button{
+        width: 50%;
+        height: 35px;
+        background-color: #32329e;
+        color: white;
+        border-radius: 15px;
+    }
+}
