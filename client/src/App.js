@@ -10,6 +10,9 @@ import Login from "./pages/Login";
 import { AuthProvider } from "./context/auth";
 import { setContext } from "apollo-link-context";
 import { createHttpLink } from "apollo-link-http";
+import { AuthContext } from "./context/auth";
+import { useContext } from "react";
+
 const cache = new InMemoryCache({
   typePolicies: {
     Query: {
@@ -37,7 +40,7 @@ const authLink = setContext(() => {
   const token = localStorage.getItem("token");
   return {
     headers: {
-      Authorization: token ? `Bearer ${token}` : ''
+      Authorization: token ? `Bearer ${token}` : "",
     },
   };
 });
@@ -47,10 +50,11 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const { user } = useContext(AuthContext);
   return (
     <>
       <ApolloProvider client={client}>
-        <AuthProvider>
+        <AuthProvider user={user}>
           <Router>
             <Header />
             <Routes>

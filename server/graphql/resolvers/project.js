@@ -1,6 +1,5 @@
 const Client = require("../../models/Client");
 const Project = require("../../models/Project");
-const User = require("../../models/User");
 const auth = require("../../utils/auth");
 
 module.exports = {
@@ -10,17 +9,30 @@ module.exports = {
     Completed: "Completed",
   },
   Query: {
-    async projects(_, { userId }) {
+    async projects(_, {id},context) {
+
       try {
-        const projects = await Project.find();
+       const user=auth(context)
+       if(!user){
+        throw new Error("Please Login")
+       }
+        const projects = await Project.find({user:user.id});
         return projects;
       } catch (error) {
         throw new Error(error);
       }
     },
-    async project(_, { projectId }) {
+    async project(_, { projectId },context) {
       try {
+        const user=auth(context)
+        if(!user){
+          throw new Error("Please login")
+        }
+       
         const project = await Project.findById(projectId);
+        if(project.user!==user.id){
+          throw new Error("You cannot view other person's project")
+        }
         return project;
       } catch (error) {
         throw new Error(error);
@@ -54,6 +66,7 @@ module.exports = {
           description: description,
           status: status,
           clientId: clientId,
+          user:user.id
         });
 
         const project = await newProject.save();
