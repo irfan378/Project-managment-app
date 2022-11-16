@@ -13,8 +13,9 @@ jobs:
         with:
           node-version: '16'
       - name: Install dependencies
-        run: npm ci       
-        run: npm i cypress
+        run: |
+        npm ci       
+        npm i cypress
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
