@@ -13,8 +13,6 @@ jobs:
       - name: Cypress run
       - uses: cypress-io/github-action@v4.2.9
       -  uses: actions/setup-node@v2
-          with:
-            node-version: '16'
         - name: Test the project
           run: |
             npm run dev
